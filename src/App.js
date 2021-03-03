@@ -44,7 +44,7 @@ const App = ({api}) => {
   
   return (
     <div className="App">
-      <SearchForm title={searchTitle} handleInput={handleChange}/>
+      <SearchForm title={searchTitle} handleInput={handleChange}>Search</SearchForm>
       <Objects items={list} title={searchTitle} removeItem={removeItemHandler}/>
     </div>
   );
