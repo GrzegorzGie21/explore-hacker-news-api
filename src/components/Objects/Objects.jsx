@@ -11,7 +11,7 @@ const Objects = ({items, title, removeItem}) =>
       <span>Action</span>
     </div>
     {items.filter(searchItemByTitle(title)).map(item => (
-        <div key={item.id} className={'table-row'}>
+        <div key={item.objectID} className={'table-row'}>
             <span>
               <a href={item.url}>{item.title}</a>
             </span>
@@ -19,7 +19,7 @@ const Objects = ({items, title, removeItem}) =>
           <span>{item.num_comments}</span>
           <span>{item.points}</span>
           <span>
-              <Button onClick={() => removeItem(item.id)} className={'button-inline'}>Remove</Button>
+              <Button onClick={() => removeItem(item.objectID)} className={'button-inline'}>Remove</Button>
             {/*<button type='button' onClick={() => removeItem(item.id)}>Remove</button>*/}
             </span>
         </div>
