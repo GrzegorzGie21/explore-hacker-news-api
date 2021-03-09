@@ -4,6 +4,10 @@ import './App.css';
 import SearchForm from './components/Search';
 import Objects from './components/Objects';
 
+const DEFAULT_QUERY = 'redux';
+const PATH_BASE = 'https://hn.algolia.com/api/v1';
+const PATH_SEARCH = '/search';
+const PARAM_SEARCH = 'query=';
 
 const App = ({api}) => {
   const [list, setList] = useState([]);
@@ -12,7 +16,7 @@ const App = ({api}) => {
   useEffect(() => {
       try {
         const getData = async () => {
-          let data = await fetch(api);
+          let data = await fetch(`${PATH_BASE}/${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`);
           data = await data.json();
           setList(data);
         };
@@ -20,7 +24,7 @@ const App = ({api}) => {
       } catch (e) {
         console.log(e);
       }
-    }, [api],
+    }, [],
   );
   const removeItemHandler = async (id) => {
     console.log(id);
@@ -43,8 +47,10 @@ const App = ({api}) => {
   };
   
   return (
-    <div className="App">
-      <SearchForm title={searchTitle} handleInput={handleChange}>Search</SearchForm>
+    <div className="page">
+      <div className={'interactions'}>
+        <SearchForm title={searchTitle} handleInput={handleChange}>Search</SearchForm>
+      </div>
       <Objects items={list} title={searchTitle} removeItem={removeItemHandler}/>
     </div>
   );

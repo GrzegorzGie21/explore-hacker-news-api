@@ -2,9 +2,16 @@ import searchItemByTitle from '../../utils';
 import Button from '../Search/Button';
 
 const Objects = ({items, title, removeItem}) =>
-  <div>
+  <div className={'table'}>
+    <div className={'table-header'}>
+      <span>Title</span>
+      <span>Author</span>
+      <span>Number of comments</span>
+      <span>Points</span>
+      <span>Action</span>
+    </div>
     {items.filter(searchItemByTitle(title)).map(item => (
-        <div key={item.id}>
+        <div key={item.id} className={'table-row'}>
             <span>
               <a href={item.url}>{item.title}</a>
             </span>
@@ -12,7 +19,7 @@ const Objects = ({items, title, removeItem}) =>
           <span>{item.num_comments}</span>
           <span>{item.points}</span>
           <span>
-              <Button onClick={() => removeItem(item.id)}>Remove</Button>
+              <Button onClick={() => removeItem(item.id)} className={'button-inline'}>Remove</Button>
             {/*<button type='button' onClick={() => removeItem(item.id)}>Remove</button>*/}
             </span>
         </div>
