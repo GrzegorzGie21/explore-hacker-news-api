@@ -1,7 +1,6 @@
-import searchItemByTitle from '../../utils';
 import Button from '../Search/Button';
 
-const Objects = ({items, title, removeItem}) =>
+const Objects = ({items, removeItem}) =>
   <div className={'table'}>
     <div className={'table-header'}>
       <span>Title</span>
@@ -10,7 +9,7 @@ const Objects = ({items, title, removeItem}) =>
       <span>Points</span>
       <span>Action</span>
     </div>
-    {items.filter(searchItemByTitle(title)).map(item => (
+    {items.map(item => (
         <div key={item.objectID} className={'table-row'}>
             <span>
               <a href={item.url}>{item.title}</a>
