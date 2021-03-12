@@ -1,4 +1,4 @@
-import Button from '../Search/Button';
+import Button from '../Button';
 
 const Objects = ({items, removeItem}) =>
   <div className={'table'}>
