@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import './App.css';
 
 import SearchForm from './components/Search';
@@ -7,7 +7,7 @@ import Button from './components/Button';
 
 const DEFAULT_QUERY = 'redux';
 const DEFAULT_PAGE = 0;
-const DEFAULT_HPP = 100;
+const DEFAULT_HPP = 10;
 
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 const PATH_SEARCH = '/search';
@@ -16,26 +16,44 @@ const PARAM_PAGE = 'page=';
 const PARAM_HPP = 'hitsPerPage=';
 
 const App = ({api}) => {
-  const [result, setResult] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(DEFAULT_QUERY);
+  const [searchKey, setSearchKey] = useState(searchTerm);
+  
+  const fetchData = async (searchTerm, currPage = DEFAULT_PAGE) => {
+    const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${currPage}&${PARAM_HPP}${DEFAULT_HPP}`;
+    let data = await fetch(url);
+    data = await data.json();
+    setSearchTopStories(data);
+    // setSearchKey(searchTerm)
+    // const {hits, page} = data;
+    // // setSearchKey(searchTerm);
+    // // console.log('searchKey: ', searchKey);
+    // const oldHits = results && results[searchKey] ? results[searchKey].hits : [];
+    // const updatedHits = [...oldHits, ...hits];
+    // // console.log(updatedHits);
+    // // setResults({hits: updatedHits, page});
+    // setResults({...results, [searchKey]: {hits: updatedHits, page}});
+  };
+  const setSearchTopStories = ({hits, page}) => {
+    console.log(hits, page);
+    const oldHits = results && results[searchKey] ? results[searchKey].hits : [];
+    const updatedHits = [...oldHits, ...hits];
+    setResults({...results, [searchKey]: {hits: updatedHits, page}});
+  };
+  useEffect(() => setSearchKey(searchTerm), [searchTerm]);
   
   useEffect(() => {
+      // setSearchKey(searchTerm);
+      // setSearchTerm('dupa');
+      // console.log('searchTerm: ', searchTerm);
       try {
-        fetchData();
+        fetchData(searchTerm);
       } catch (e) {
         console.log(e);
       }
     }, [],
   );
-  
-  const fetchData = async (searchTerm = DEFAULT_QUERY, currPage = DEFAULT_PAGE, hpp = DEFAULT_HPP) => {
-    let data = await fetch(`${PATH_BASE}/${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${currPage}&${PARAM_HPP}${hpp}`);
-    data = await data.json();
-    const {hits, page} = data;
-    const oldHits = page === 0 ? [] : result.hits;
-    const updatedHits = [...oldHits, ...hits];
-    setResult({hits: updatedHits, page});
-  };
   
   //this method is used when JSON Server was active
   const removeItemHandler = async (id) => {
@@ -47,29 +65,36 @@ const App = ({api}) => {
       console.log(e);
     } finally {
       const checkId = item => item.objectID !== id;
-      setResult([...result.hits].filter(checkId));
+      setResults([...results.hits].filter(checkId));
     }
   };
   
   const dismissItemHandler = (id) => {
     const checkId = item => item.objectID !== id;
-    const updatedHits = result.hits.filter(checkId);
-    setResult({...result, hits: updatedHits});
+    const page = results[searchKey].page;
+    const updatedHits = results[searchKey].hits.filter(checkId);
+    setResults({...results, [searchKey]: {hits: updatedHits, page}});
   };
   
   const handleChange = (e) => {
     const title = e.target.value;
     setSearchTerm(title);
+    // setSearchKey(title)
   };
   
+  const shouldSearchApi = searchTerm => !results[searchTerm];
+  
   const searchTermHandler = (e) => {
-    fetchData(searchTerm);
+    // setSearchKey(searchTerm);
+    console.log(searchKey);
+    console.log(searchTerm);
+    if (shouldSearchApi(searchTerm)) fetchData(searchTerm);
     e.preventDefault();
   };
   
   const nextPageHandler = (e) => {
-    const currentPage = result.page || 0;
-    fetchData(searchTerm || DEFAULT_QUERY, currentPage + 1);
+    const currentPage = (results && results[searchKey] && results[searchKey].page) || 0;
+    fetchData(searchTerm, currentPage + 1);
     // e.preventDefault();
   };
   
@@ -83,9 +108,9 @@ const App = ({api}) => {
           Search
         </SearchForm>
       </div>
-      {result && <Objects items={result.hits} removeItem={dismissItemHandler}/>}
+      {results && results[searchKey] && <Objects items={results[searchKey].hits} removeItem={dismissItemHandler}/>}
       <div className={'interactions'}>
-        {result && <Button onClick={nextPageHandler}>Next</Button>}
+        {results && <Button onClick={nextPageHandler}>Next</Button>}
       </div>
     </div>
   );
