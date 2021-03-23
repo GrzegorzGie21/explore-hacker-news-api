@@ -1,19 +1,22 @@
 import {useEffect, useState} from 'react';
 import './App.css';
 
-import SearchForm from './components/Search';
-import Objects from './components/Objects';
-import Button from './components/Button';
+import SearchForm from '../Search';
+import Objects from '../Objects';
+import Button from '../Button';
 
-const DEFAULT_QUERY = 'redux';
-const DEFAULT_PAGE = 0;
-const DEFAULT_HPP = 10;
+import {
+  DEFAULT_QUERY,
+  DEFAULT_HPP,
+  DEFAULT_PAGE,
+  
+  PARAM_HPP,
+  PARAM_PAGE,
+  PARAM_SEARCH,
+  PATH_SEARCH,
+  PATH_BASE,
+} from '../../constants';
 
-const PATH_BASE = 'https://hn.algolia.com/api/v1';
-const PATH_SEARCH = '/search';
-const PARAM_SEARCH = 'query=';
-const PARAM_PAGE = 'page=';
-const PARAM_HPP = 'hitsPerPage=';
 
 const App = ({api}) => {
   const [results, setResults] = useState(null);
