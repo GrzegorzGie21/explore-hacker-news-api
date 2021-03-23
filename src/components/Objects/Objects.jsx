@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Button from '../Button';
 
 const Objects = ({items, removeItem}) =>
@@ -27,5 +28,17 @@ const Objects = ({items, removeItem}) =>
     }
   </div>;
 
-
+Objects.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      objectID: PropTypes.string.isRequired,
+      url: PropTypes.url,
+      title: PropTypes.string,
+      author: PropTypes.string,
+      num_comments: PropTypes.number,
+      points: PropTypes.number,
+    }),
+  ).isRequired,
+  removeItem: PropTypes.func.isRequired,
+};
 export default Objects;

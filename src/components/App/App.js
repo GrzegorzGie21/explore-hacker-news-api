@@ -18,7 +18,7 @@ import {
 } from '../../constants';
 
 
-const App = ({api}) => {
+const App = () => {
   const [results, setResults] = useState(null);
   const [searchTerm, setSearchTerm] = useState(DEFAULT_QUERY);
   const [searchKey, setSearchKey] = useState(searchTerm);
@@ -60,6 +60,7 @@ const App = ({api}) => {
   
   //this method is used when JSON Server was active
   const removeItemHandler = async (id) => {
+    const api = 'http://localhost:3001/objects';
     try {
       await fetch(`${api}/${id}`, {
         method: 'DELETE',
@@ -118,4 +119,5 @@ const App = ({api}) => {
     </div>
   );
 };
+
 export default App;
