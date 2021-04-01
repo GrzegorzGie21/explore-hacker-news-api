@@ -22,3 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 db/copy.json
+
+# my files
+src/components/App/COI.html
