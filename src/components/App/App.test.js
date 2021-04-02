@@ -1,6 +1,8 @@
 import {render, screen} from '@testing-library/react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
+import {shallow} from 'enzyme';
 import App from './App';
 import SearchForm from '../Search';
 import Button from '../Button';
@@ -8,7 +10,7 @@ import Objects from '../Objects';
 
 // test('renders learn react link', () => {
 //   render(<App/>);
-//   const linkElement = screen.getByText(/learn react/i);
+//   const linkElement = screen.getByText('Title');
 //   expect(linkElement).toBeInTheDocument();
 // });
 
@@ -28,11 +30,14 @@ describe('App', () => {
 describe('SearchForm', () => {
   const props = {
     title: 'Search',
-    onChange: () => {},
-    handleInput: () => {},
-    handleSubmit: () => {},
-    children: 'Next'
-  }
+    onChange: () => {
+    },
+    handleInput: () => {
+    },
+    handleSubmit: () => {
+    },
+    children: 'Next',
+  };
   
   it('renders SearchForm component', () => {
     const div = document.createElement('div');
@@ -65,7 +70,8 @@ describe('Objects', () => {
       {title: '1', author: '1', num_comments: 1, points: 2, objectID: 'y'},
       {title: '2', author: '2', num_comments: 1, points: 2, objectID: 'z'},
     ],
-    removeItem: () => {}
+    removeItem: () => {
+    },
   };
   
   it('renders Objects component', () => {
@@ -78,4 +84,9 @@ describe('Objects', () => {
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
+  
+  // it('should show two items in list', function () {
+  //   const element = shallow(<Objects {...props}/>);
+  //   expect(element.find('.table-row').length).toBe(2)
+  // });
 });
