@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App snapshots for App component 1`] = `
+<div
+  className="page"
+>
+  <div
+    className="interactions"
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <label
+        htmlFor="searchTitle"
+      >
+        <input
+          name="searchTitle"
+          onChange={[Function]}
+          placeholder="redux"
+          type="text"
+          value="redux"
+        />
+        <button
+          className=""
+          type="submit"
+        >
+          Search
+        </button>
+      </label>
+    </form>
+  </div>
+  <div
+    className="interactions"
+  />
+</div>
+`;
+
+exports[`Button snapshots for Button component 1`] = `
+<button
+  className=""
+  type="button"
+>
+  Next
+</button>
+`;
+
+exports[`Objects snapshots for Object Component 1`] = `
+<div
+  className="table"
+>
+  <div
+    className="table-header"
+  >
+    <span>
+      Title
+    </span>
+    <span>
+      Author
+    </span>
+    <span>
+      Number of comments
+    </span>
+    <span>
+      Points
+    </span>
+    <span>
+      Action
+    </span>
+  </div>
+  <div
+    className="table-row"
+  >
+    <span>
+      <a>
+        1
+      </a>
+    </span>
+    <span>
+      1
+    </span>
+    <span>
+      1
+    </span>
+    <span>
+      2
+    </span>
+    <span>
+      <button
+        className="button-inline"
+        onClick={[Function]}
+        type="button"
+      >
+        Remove
+      </button>
+    </span>
+  </div>
+  <div
+    className="table-row"
+  >
+    <span>
+      <a>
+        2
+      </a>
+    </span>
+    <span>
+      2
+    </span>
+    <span>
+      1
+    </span>
+    <span>
+      2
+    </span>
+    <span>
+      <button
+        className="button-inline"
+        onClick={[Function]}
+        type="button"
+      >
+        Remove
+      </button>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`SearchForm snapshots for SearchForm component 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <label
+    htmlFor="searchTitle"
+  >
+    <input
+      name="searchTitle"
+      onChange={[Function]}
+      placeholder="Search"
+      type="text"
+      value="Search"
+    />
+    <button
+      className=""
+      type="submit"
+    >
+      Search
+    </button>
+  </label>
+</form>
+`;
