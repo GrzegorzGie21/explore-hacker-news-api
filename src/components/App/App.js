@@ -1,5 +1,8 @@
 import {useEffect, useState, useRef} from 'react';
 import './App.css';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {fas} from '@fortawesome/free-solid-svg-icons';
 
 import SearchForm from '../Search';
 import Objects from '../Objects';
@@ -18,6 +21,7 @@ import {
   PATH_BASE,
 } from '../../constants';
 
+library.add(fas);
 
 const App = () => {
   const [results, setResults] = useState(null);
@@ -113,7 +117,7 @@ const App = () => {
       </div>
       {results && results[searchKey] && <Objects items={results[searchKey].hits} removeItem={dismissItemHandler}/>}
       <div className={'interactions'}>
-        {isLoading ? <Loading/> : <Button onClick={nextPageHandler}>Next</Button>}
+        {isLoading ? <FontAwesomeIcon icon={'spinner'} size={'3x'} pulse/> : <Button onClick={nextPageHandler}>Next</Button>}
       </div>
     </div>
   );
