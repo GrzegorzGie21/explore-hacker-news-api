@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import Button from '../Button';
 
-const SearchForm = ({title, handleInput, handleSubmit, children}) =>
+const SearchForm = ({title, handleInput, handleSubmit, children, input, onClick}) =>
   <form onSubmit={handleSubmit}>
     <label htmlFor="searchTitle">
-      <input type="text" name='searchTitle' value={title} onChange={handleInput} placeholder={title}/>
-      <Button type={'submit'}>{children}</Button>
+      <input type="text" name='searchTitle'
+             value={title}
+             onChange={handleInput}
+             placeholder={title}
+             ref={input}/>
+      <Button type={'submit'} onClick={onClick}>{children}</Button>
     </label>
   </form>;
 

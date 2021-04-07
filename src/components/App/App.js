@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import './App.css';
 
 import SearchForm from '../Search';
@@ -22,22 +22,15 @@ const App = () => {
   const [results, setResults] = useState(null);
   const [searchTerm, setSearchTerm] = useState(DEFAULT_QUERY);
   const [searchKey, setSearchKey] = useState(searchTerm);
+  const input = useRef(null);
   
   const fetchData = async (searchTerm, currPage = DEFAULT_PAGE) => {
     const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${currPage}&${PARAM_HPP}${DEFAULT_HPP}`;
     let data = await fetch(url);
     data = await data.json();
     setSearchTopStories(data);
-    // setSearchKey(searchTerm)
-    // const {hits, page} = data;
-    // // setSearchKey(searchTerm);
-    // // console.log('searchKey: ', searchKey);
-    // const oldHits = results && results[searchKey] ? results[searchKey].hits : [];
-    // const updatedHits = [...oldHits, ...hits];
-    // // console.log(updatedHits);
-    // // setResults({hits: updatedHits, page});
-    // setResults({...results, [searchKey]: {hits: updatedHits, page}});
   };
+  
   const setSearchTopStories = ({hits, page}) => {
     console.log(hits, page);
     const oldHits = results && results[searchKey] ? results[searchKey].hits : [];
@@ -47,9 +40,7 @@ const App = () => {
   useEffect(() => setSearchKey(searchTerm), [searchTerm]);
   
   useEffect(() => {
-      // setSearchKey(searchTerm);
-      // setSearchTerm('dupa');
-      // console.log('searchTerm: ', searchTerm);
+      input.current.focus();
       try {
         fetchData(searchTerm);
       } catch (e) {
@@ -83,13 +74,11 @@ const App = () => {
   const handleChange = (e) => {
     const title = e.target.value;
     setSearchTerm(title);
-    // setSearchKey(title)
   };
   
   const shouldSearchApi = searchTerm => !results[searchTerm];
   
   const searchTermHandler = (e) => {
-    // setSearchKey(searchTerm);
     console.log(searchKey);
     console.log(searchTerm);
     if (shouldSearchApi(searchTerm)) fetchData(searchTerm);
@@ -99,8 +88,11 @@ const App = () => {
   const nextPageHandler = (e) => {
     const currentPage = (results && results[searchKey] && results[searchKey].page) || 0;
     fetchData(searchTerm, currentPage + 1);
-    // e.preventDefault();
   };
+  
+  const searchClickHandler = () => {
+    input.current.focus()
+  }
   
   // if (!result) return null;
   return (
@@ -108,7 +100,9 @@ const App = () => {
       <div className={'interactions'}>
         <SearchForm title={searchTerm}
                     handleInput={handleChange}
-                    handleSubmit={searchTermHandler}>
+                    handleSubmit={searchTermHandler}
+                    input={input}
+                    onClick={searchClickHandler}>
           Search
         </SearchForm>
       </div>
