@@ -4,6 +4,7 @@ import './App.css';
 import SearchForm from '../Search';
 import Objects from '../Objects';
 import Button from '../Button';
+import Loading from '../Loading';
 
 import {
   DEFAULT_QUERY,
@@ -23,8 +24,10 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState(DEFAULT_QUERY);
   const [searchKey, setSearchKey] = useState(searchTerm);
   const input = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
   
   const fetchData = async (searchTerm, currPage = DEFAULT_PAGE) => {
+    setIsLoading(true);
     const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${currPage}&${PARAM_HPP}${DEFAULT_HPP}`;
     let data = await fetch(url);
     data = await data.json();
@@ -36,16 +39,18 @@ const App = () => {
     const oldHits = results && results[searchKey] ? results[searchKey].hits : [];
     const updatedHits = [...oldHits, ...hits];
     setResults({...results, [searchKey]: {hits: updatedHits, page}});
+    setIsLoading(false);
   };
   useEffect(() => setSearchKey(searchTerm), [searchTerm]);
+  // useEffect(() => setIsLoading(true), [results]);
   
   useEffect(() => {
-      input.current.focus();
       try {
         fetchData(searchTerm);
       } catch (e) {
         console.log(e);
       }
+      // input.current.focus();
     }, [],
   );
   
@@ -91,10 +96,10 @@ const App = () => {
   };
   
   const searchClickHandler = () => {
-    input.current.focus()
-  }
+    input.current.focus();
+  };
   
-  // if (!result) return null;
+  // if (isLoading) return <Loading/>;
   return (
     <div className="page">
       <div className={'interactions'}>
@@ -108,7 +113,7 @@ const App = () => {
       </div>
       {results && results[searchKey] && <Objects items={results[searchKey].hits} removeItem={dismissItemHandler}/>}
       <div className={'interactions'}>
-        {results && <Button onClick={nextPageHandler}>Next</Button>}
+        {isLoading ? <Loading/> : <Button onClick={nextPageHandler}>Next</Button>}
       </div>
     </div>
   );
